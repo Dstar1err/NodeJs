@@ -1,0 +1,4 @@
+EXPRESS_PORT = 3000
+JWT_KEY = "P46PHI65EFmkyUTqt2b00IUC3hOIl3k8Ogiwu0qAPm7MbOdqekdOPjdiqhfiS4jP"
+DB_URL = "mongodb+srv://admin:admin@cluster-supinfo.c6xyt.mongodb.net/dayfourth"
+HASH_SALT = "$2b$10$ikTx0RfnbUi/YiZB/MuVvO"

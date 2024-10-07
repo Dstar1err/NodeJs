@@ -1,12 +1,15 @@
-const express = require('express');
-const router = express.Router();
-const postController = require('../controllers/post.js');
+import express from "express"
+export const PostRouter = express.Router()
+
+import {getAllPost, getOnePost, addPost, updatePost, deletePost} from "../controllers/post.js";
+import {addComment} from "../controllers/comment.js";
 
 
-router.get('/', postController.getAllPost);
-router.get('/:id', postController.getOnePost);
-router.post('/', postController.addPost);
-router.put('/:id', postController.updatePost);
-router.delete('/:id', postController.deletePost);
+PostRouter.use(express.json())
 
-module.exports = router;
+PostRouter.post('/:id/comments', addComment);
+PostRouter.get('/', getAllPost);
+PostRouter.get('/:id', getOnePost);
+PostRouter.post('/', addPost);
+PostRouter.put('/:id', updatePost);
+PostRouter.delete('/:id', deletePost);

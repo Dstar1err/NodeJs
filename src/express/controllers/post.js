@@ -1,8 +1,7 @@
-const Post = require('../../database/models/post.js');
+import { Post } from "../../database/models/post.js";
 
-const postController = {};
 
-postController.getAllPost = async (req, res) => {
+export const getAllPost = async (req, res) => {
 	try {
     const posts = await Post.find();
     res.json(posts);
@@ -11,7 +10,7 @@ postController.getAllPost = async (req, res) => {
   }
 };
 
-postController.getOnePost = async (req, res) => {
+export const getOnePost = async (req, res) => {
 	const postId = req.params.id;
 	try {
     const post = await Post.findById(postId);
@@ -22,7 +21,7 @@ postController.getOnePost = async (req, res) => {
 };
 
 
-postController.addPost = async (req, res) => {
+export const addPost = async (req, res) => {
 	const newPost = new Post({
     title: req.body.title,
     content: req.body.content,
@@ -37,7 +36,7 @@ postController.addPost = async (req, res) => {
   }
 };
 
-postController.updatePost = async (req, res) => {
+export const updatePost = async (req, res) => {
 	try {
     const updatedPost = await Post.findByIdAndUpdate(
       req.params.id,
@@ -57,7 +56,7 @@ postController.updatePost = async (req, res) => {
 
 }
 
-postController.deletePost = async(req, res) => {
+export const deletePost = async(req, res) => {
 	try {
     await Post.findByIdAndDelete(req.params.id);
     res.json({ message: 'Post deleted' });
@@ -66,6 +65,5 @@ postController.deletePost = async(req, res) => {
   }
 };
 
-module.exports = postController;
 
 

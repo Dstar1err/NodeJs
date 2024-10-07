@@ -1,9 +1,10 @@
-const Comment = require('../../database/models/comment.js');
-const Post = require('../../database/models/post.js');
 
-const commentController = {};
+import { Comment } from "../../database/models/comment.js";
+import { Post } from "../../database/models/post.js";
 
-commentController.addComment = async (req, res) => {
+
+
+export const  addComment = async (req, res) => {
     const text = req.body.text
     const author  = req.body.author
     const postId = req.params.id;
@@ -25,7 +26,7 @@ commentController.addComment = async (req, res) => {
   }
 };
 
-commentController.updateComment = async (req, res) => {
+export const updateComment = async (req, res) => {
 	try {
     const updatedComment = await Post.findByIdAndUpdate(
       req.params.id,
@@ -43,7 +44,7 @@ commentController.updateComment = async (req, res) => {
 
 }
 
-commentController.deleteComment = async(req, res) => {
+export const deleteComment = async(req, res) => {
 	try {
     const deletedComment = await Comment.findByIdAndDelete(req.params.id);
     if (!deletedComment) return res.status(404).json({ message: 'Comment not found' });
@@ -53,6 +54,6 @@ commentController.deleteComment = async(req, res) => {
   }
 };
 
-module.exports = commentController;
+
 
 
