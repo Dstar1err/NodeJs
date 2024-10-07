@@ -34,12 +34,12 @@ export const updateComment = async (req, res) => {
       req.params.id,
       { text: req.body.text,
         updated_at: Date.now() },
-      { new: true }
+      { projection: sanitize, new: true }
 
     );
 
     if (!updatedComment) return res.status(404).json({ message: 'Comment not found' });
-    res.json(Comment.hydrate(updatedComment, sanitize));
+    res.json(updatedComment);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

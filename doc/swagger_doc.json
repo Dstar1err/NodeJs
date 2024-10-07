@@ -45,6 +45,30 @@
                     }
                 }
             }
+        },
+        "/login": {
+            "post": {
+                "summary": "Login",
+                "description": "Login",
+                "responses": {
+                    "200": {
+                        "description": "A JWT Token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "accessToken": {
+                                            "type": "string",
+                                            "example": "eyJhbGciOiJIUzI1NiJ9.NjcwM2E5YjMxYzhjMmJmMjBmZmIyNjNl.sVU37ysOGrAaJO5uznmjX_vfrWQ7kz8I9QPBCSQ6Axo"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

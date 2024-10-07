@@ -50,8 +50,7 @@ export const updatePost = async (req, res) => {
         tags: req.body.tags,
         updated_at: Date.now()
       },
-      { new: true },
-      {projection: sanitize}
+      { projection: sanitize, new: true },
     );
     res.json(updatedPost);
   } catch (err) {
