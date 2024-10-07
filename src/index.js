@@ -4,7 +4,6 @@ import 'dotenv/config'
 import { UserRouter } from "./express/routers/user.js"
 import { PostRouter } from "./express/routers/post.js"
 import { CommentRouter } from "./express/routers/comment.js"
-import { initialize } from "express-openapi";
 import swaggerUiExpress from "swagger-ui-express";
 import swaggerDoc from "../doc/swagger_doc.json" assert { type: 'json' };
 
