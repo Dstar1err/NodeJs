@@ -2,13 +2,9 @@ import {Like} from "../../database/models/like.js";
 import { Comment } from "../../database/models/comment.js";
 import { Post } from "../../database/models/post.js";
 
-const sanitize = {
-  __v: false
-}
-
 export const getAllLike = async (req, res) => {
   try {
-    const { postId } = req.params;
+    const  postId  = req.params.postId;
 
     const likes = await Like.find({ postId }).populate('author', 'name');
     res.status(200).json(likes);
@@ -19,7 +15,7 @@ export const getAllLike = async (req, res) => {
 
 export const getUserLike = async (req, res) => {
    try {
-    const { userId } = req.params;
+    const  userId  = req.params.userId;
 
     const likedPosts = await Like.find({ author: userId }).populate('postId', 'title content author');
 
@@ -35,24 +31,27 @@ export const getUserLike = async (req, res) => {
 };
 
 
-export const  addLike = async (req, res) => {
-   try {
-    const { userId } = req.body;
-    const { postId } = req.params;
+export const addLike = async (req, res) => {
+  try {
+    const  author = req.body;
+    const  postId  = req.params;
+
+    console.log("post",postId, author);
+    console.log("author", author);
 
     const post = await Post.findById(postId);
     if (!post) return res.status(404).json({ message: 'Post not found' });
 
-
-    const existingLike = await Like.findOne({ author: userId, postId });
+    const existingLike = await Like.findOne({ author, postId });
     if (existingLike) {
       return res.status(400).json({ message: 'You already liked this post' });
     }
 
     const newLike = new Like({
-      author: userId,
+      author,
       postId
     });
+    console.log(newLike)
 
     const savedLike = await newLike.save();
     res.status(201).json(savedLike);
@@ -61,25 +60,10 @@ export const  addLike = async (req, res) => {
   }
 };
 
-export const updateLike = async (req, res) => {
-	try {
-        console.log('body', req.body)
-    const updatedComment = await Post.findOneAndUpdate(
-        {_id: req.params.id},
-      { text: req.body.text,
-        updated_at: Date.now() },
-      { projection: sanitize  },
-        {returnOriginal: true}
-    )
-    res.json(updatedComment);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
 
-}
 
-export const deleteLike = async(req, res) => {
-	try {
+export const deleteLike = async (req, res) => {
+  try {
     const { userId } = req.body;
     const { postId } = req.params;
 
@@ -92,8 +76,8 @@ export const deleteLike = async(req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Error removing like', error });
   }
-
 };
+
 
 
 
