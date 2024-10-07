@@ -1,7 +1,7 @@
 import { Post } from "../../database/models/post.js";
 
 const sanitize = {
-    _v: false
+    __v: false
 }
 
 export const getAllPost = async (req, res) => {

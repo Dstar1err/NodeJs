@@ -3,7 +3,7 @@ import { Comment } from "../../database/models/comment.js";
 import { Post } from "../../database/models/post.js";
 
 const sanitize = {
-  _v: false
+  __v: false
 }
 
 export const  addComment = async (req, res) => {
@@ -22,7 +22,7 @@ export const  addComment = async (req, res) => {
     });
 
     const savedComment = await newComment.save();
-    res.status(201).json(savedComment);
+    res.status(201).json(Comment.hydrate(savedComment, sanitize));
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -39,7 +39,7 @@ export const updateComment = async (req, res) => {
     );
 
     if (!updatedComment) return res.status(404).json({ message: 'Comment not found' });
-    res.json(updatedComment);
+    res.json(Comment.hydrate(updatedComment, sanitize));
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
