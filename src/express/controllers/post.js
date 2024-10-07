@@ -1,9 +1,12 @@
 import { Post } from "../../database/models/post.js";
 
+const sanitize = {
+    _v: false
+}
 
 export const getAllPost = async (req, res) => {
 	try {
-    const posts = await Post.find();
+    const posts = await Post.find({}, {projection: sanitize});
     res.json(posts);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -14,7 +17,7 @@ export const getOnePost = async (req, res) => {
 	const postId = req.params.id;
 	try {
     const post = await Post.findById(postId);
-    res.json(post);
+    res.json(Post.hydrate(post, sanitize));
   } catch (err) {
     res.status(404).json({ message: 'Post not found' });
   }
@@ -30,7 +33,7 @@ export const addPost = async (req, res) => {
   });
   try {
     const savedPost = await newPost.save();
-    res.json(savedPost);
+    res.json(Post.hydrate(savedPost, sanitize));
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -47,7 +50,8 @@ export const updatePost = async (req, res) => {
         tags: req.body.tags,
         updated_at: Date.now()
       },
-      { new: true }
+      { new: true },
+      {projection: sanitize}
     );
     res.json(updatedPost);
   } catch (err) {

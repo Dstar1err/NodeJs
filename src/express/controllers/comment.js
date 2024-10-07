@@ -2,7 +2,9 @@
 import { Comment } from "../../database/models/comment.js";
 import { Post } from "../../database/models/post.js";
 
-
+const sanitize = {
+  _v: false
+}
 
 export const  addComment = async (req, res) => {
     const text = req.body.text
