@@ -46,13 +46,29 @@
                         "items": {
                             "type": "string",
                             "example": "Gaming"
-                        }
+                        },
+                        "uniqueItems": true,
+                        "minItems:": 1
                     },
                     "created_at": {
                         "type": "date-time"
                     },
                     "updated_at": {
                         "type": "date-time"
+                    }
+                }
+            },
+            "Comment": {
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string"
+                    },
+                    "author": {
+                        "$ref": "#/components/schemas/Identifiant"
+                    },
+                    "postId": {
+                        "$ref": "#/components/schemas/Identifiant"
                     }
                 }
             }
@@ -174,8 +190,8 @@
                 }
             }, 
             "put": {
-                "summary": "Delete User",
-                "description": "Delete User",
+                "summary": "Update User",
+                "description": "Update User",
                 "parameters": [
                     {
                         "name": "id",
@@ -238,6 +254,282 @@
                         }
                     }
                 ],
+                
+                "responses": {
+                    "200": {
+                        "description": "Ok"
+                    }
+                }
+            }
+        },
+        "/posts": {
+            "get": {
+                "summary": "Get Posts",
+                "description": "Get Posts",
+                
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Post"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create Post",
+                "description": "Create Post",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "title": {
+                                    "type": "string"
+                                },
+                                "content": {
+                                    "type": "string"
+                                },
+                                "author": {
+                                    "$ref": "#/components/schemas/Identifiant"
+                                },
+                                "tags": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "example": "Gaming"
+                                    },
+                                    "uniqueItems": true,
+                                    "minItems:": 1
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Post"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/posts/{id}": {
+            "get": {
+                "summary": "Get Post",
+                "description": "Get Post",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "PostID",
+                        "schema:": {
+                            "$ref": "#/components/schemas/Post"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Post"
+                                }
+                            }
+                        }
+                    }
+                }
+            }, 
+            "put": {
+                "summary": "Update Post",
+                "description": "Update Post",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "PostID",
+                        "schema:": {
+                            "$ref": "#/components/schemas/Identifiant"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "content": {
+                                        "type": "string"
+                                    },
+                                    "author": {
+                                        "$ref": "#/components/schemas/Identifiant"
+                                    },
+                                    "tags": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "Gaming"
+                                        },
+                                        "uniqueItems": true,
+                                        "minItems:": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Post"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete Post",
+                "description": "Delete Post",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "PostID",
+                        "schema:": {
+                            "$ref": "#/components/schemas/Identifiant"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok"
+                    }
+                }
+            }
+        
+        },
+        "/posts/{id}/comments": {
+            "post": {
+                "summary": "Create Comment",
+                "description": "Create Comment",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "UserID",
+                        "schema:": {
+                            "$ref": "#/components/schemas/Identifiant"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "text": {
+                                    "type": "string"
+                                },
+                                "author": {
+                                    "$ref": "#/components/schemas/Identifiant"
+                                },
+                                "postId": {
+                                    "$ref": "#/components/schemas/Identifiant"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Comment"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/comments/{id}": {
+            "put": {
+                "summary": "Update Comment",
+                "description": "Update Comment",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "UserID",
+                        "schema:": {
+                            "$ref": "#/components/schemas/Identifiant"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "text": {
+                                    "type": "string"
+                                },
+                                "author": {
+                                    "$ref": "#/components/schemas/Identifiant"
+                                },
+                                "postId": {
+                                    "$ref": "#/components/schemas/Identifiant"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Comment"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete Comment",
+                "description": "Delete Comment",
                 "responses": {
                     "200": {
                         "description": "Ok"
