@@ -1,7 +1,9 @@
 import express from "express"
 import { UserRegister, UserLogin, UserGet, UserPut, UserDelete } from "../controllers/user.js"
 import { User } from "../../database/models/user.js";
-import { hashSync, genSaltSync } from "bcrypt";
+import { hashSync, genSaltSync, hash } from "bcrypt";
+import { JWTAuthMiddleware } from "../middlewares/jwtauth.js";
+import jsonwebtoken from "jsonwebtoken";
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 export const UserRouter = express.Router()
@@ -22,11 +24,10 @@ UserRouter.post("/register", (req, res) => {
         res.status(400).send("Error")
         return
     }
-    let salt = genSaltSync(10)
     let user = new User({
         username: username,
         email: email,
-        hashedPassword: hashSync(password, salt)
+        hashedPassword: hashSync(password, process.env.HASH_SALT)
     })
     user.save().then(() => {
         res.status(200).json(user)
@@ -36,8 +37,23 @@ UserRouter.post("/register", (req, res) => {
     })
 })
 UserRouter.post("/login", (req, res) => {
-
+    const password = req.body.password
+    const email = req.body.email
+    if (email === undefined || password === undefined) {
+        res.status(400).send("Email or Password undefined")
+        return
+    }
+    User.findOne({email: email, hashedPassword: hashSync(password, process.env.HASH_SALT)}).then((user) => {
+        console.log(user)
+        const accessToken = jsonwebtoken.sign(user.id, process.env.JWT_KEY);
+        res.status(200).json({ accessToken});
+    }).catch((err) => {
+        res.status(500).send("Login Error: " + err)
+    })
 })
+
+UserRouter.use(JWTAuthMiddleware)
+
 UserRouter.get("/:id", (req, res) => {
     User.findOne({_id: req.params.id}).then((user) => {
         console.log("Deleted:",user.IsDeleted())
