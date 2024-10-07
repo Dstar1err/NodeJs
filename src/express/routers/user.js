@@ -20,7 +20,7 @@ UserRouter.post("/register", (req, res) => {
     let user = new User({
         username: username,
         email: email,
-        password: hashSync()
+        password: hashSync(password, process.env.PASSWORD_SALT)
     })
 })
 UserRouter.post("/login", UserLogin)
