@@ -21,8 +21,11 @@ const UserSchema = mongoose.Schema({
     }
 })
 
-UserSchema.methods.IsValid = function() {
-    
+UserSchema.methods.IsDeleted = function() {
+    if (this.deletedAt !== undefined) {
+        return true
+    }
+    return false
 }
 
 export const User = mongoose.model("User", UserSchema)
