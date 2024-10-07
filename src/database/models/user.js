@@ -21,4 +21,8 @@ const UserSchema = mongoose.Schema({
     }
 })
 
+UserSchema.methods.IsValid = function() {
+    
+}
+
 export const User = mongoose.model("User", UserSchema)

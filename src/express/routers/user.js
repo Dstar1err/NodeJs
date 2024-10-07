@@ -22,6 +22,7 @@ UserRouter.post("/register", (req, res) => {
         email: email,
         password: hashSync(password, process.env.PASSWORD_SALT)
     })
+    user.save()
 })
 UserRouter.post("/login", UserLogin)
 UserRouter.get("/:id", UserGet)
