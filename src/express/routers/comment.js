@@ -2,13 +2,13 @@
 
 import express from "express"
 
-import {addComment, deleteComment, updateComment} from "../controllers/comment.js";
+import {deleteComment, getAllComment, updateComment} from "../controllers/comment.js";
+
 
 export const CommentRouter = express.Router()
 
 CommentRouter.use(express.json())
-
-
+CommentRouter.get('/', getAllComment);
 CommentRouter.put('/:id', updateComment);
 CommentRouter.delete('/:id', deleteComment);
 

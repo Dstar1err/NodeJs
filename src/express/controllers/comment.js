@@ -6,6 +6,15 @@ const sanitize = {
   __v: false
 }
 
+export const getAllComment = async (req, res) => {
+	try {
+    const comments = await Comment.find({}, sanitize);
+    res.json(comments);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 export const  addComment = async (req, res) => {
     const text = req.body.text
     const author  = req.body.author
@@ -30,15 +39,14 @@ export const  addComment = async (req, res) => {
 
 export const updateComment = async (req, res) => {
 	try {
-    const updatedComment = await Post.findByIdAndUpdate(
-      req.params.id,
+        console.log('body', req.body)
+    const updatedComment = await Post.findOneAndUpdate(
+        {_id: req.params.id},
       { text: req.body.text,
         updated_at: Date.now() },
-      { projection: sanitize, new: true }
-
-    );
-
-    if (!updatedComment) return res.status(404).json({ message: 'Comment not found' });
+      { projection: sanitize  },
+        {returnOriginal: true}
+    )
     res.json(updatedComment);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -48,8 +56,7 @@ export const updateComment = async (req, res) => {
 
 export const deleteComment = async(req, res) => {
 	try {
-    const deletedComment = await Comment.findByIdAndDelete(req.params.id);
-    if (!deletedComment) return res.status(404).json({ message: 'Comment not found' });
+    await Comment.findByIdAndDelete(req.params.id);
     res.json({ message: 'Comment deleted' });
   } catch (err) {
     res.status(500).json({ message: err.message });
