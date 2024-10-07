@@ -4,6 +4,7 @@ import 'dotenv/config'
 import { UserRouter } from "./express/routers/user.js"
 import { PostRouter } from "./express/routers/post.js"
 import { CommentRouter } from "./express/routers/comment.js"
+import { LikeRouter } from "./express/routers/like.js"
 import swaggerUiExpress from "swagger-ui-express";
 import swaggerDoc from "../doc/swagger_doc.json" assert { type: 'json' };
 
@@ -21,6 +22,7 @@ mongoose.connect(process.env.DB_URL).then(() => {
     app.use("/users", UserRouter)
     app.use("/posts", PostRouter)
     app.use("/comments", CommentRouter)
+    app.use("/posts", LikeRouter)
 }).catch((err) => {
     console.log("Mongoose Error:", err)
 })

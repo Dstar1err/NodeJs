@@ -6,14 +6,7 @@ const sanitize = {
   __v: false
 }
 
-export const getAllComment = async (req, res) => {
-	try {
-    const comments = await Comment.find({}, sanitize);
-    res.json(comments);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
+
 
 export const  addComment = async (req, res) => {
     const text = req.body.text

@@ -14,7 +14,7 @@ title: {
     ref: 'User',
     required: true
   },
-  tags: [String],
+  tags: Array,
   created_at: {
     type: Date,
     default: Date.now
