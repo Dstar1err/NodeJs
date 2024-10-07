@@ -11,11 +11,15 @@
     }],
     "components": {
         "schemas": {
+            "Identifiant": {
+                "type": "string",
+                "example": "6703a29a34d7f32fe3e4967f"
+            },
             "User": {
                 "type": "object",
                 "properties": {
                     "_id": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/Identifiant"
                     },
                     "username": {
                         "type": "string"
@@ -24,14 +28,65 @@
                         "type": "string"
                     }
                 }
+            },
+            "Post": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "author": {
+                        "$ref": "#/components/schemas/Identifiant"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "Gaming"
+                        }
+                    },
+                    "created_at": {
+                        "type": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "date-time"
+                    }
+                }
             }
         }
     },
     "paths": {
-        "/register": {
+        "/users/register": {
             "post": {
                 "summary": "Register new User",
                 "description": "Register new User",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "Example"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "example@exmaple.com"
+                                    },
+                                    "passsword": {
+                                        "type": "string",
+                                        "example": "1234"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "A User",
@@ -46,10 +101,30 @@
                 }
             }
         },
-        "/login": {
+        "/users/login": {
             "post": {
                 "summary": "Login",
                 "description": "Login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "example@exmaple.com"
+                                    },
+                                    "passsword": {
+                                        "type": "string",
+                                        "example": "1234"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "A JWT Token",
@@ -66,6 +141,106 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "summary": "Get User",
+                "description": "Get User",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "UserID",
+                        "schema:": {
+                            "$ref": "#/components/schemas/Identifiant"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                }
+            }, 
+            "put": {
+                "summary": "Delete User",
+                "description": "Delete User",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "UserID",
+                        "schema:": {
+                            "$ref": "#/components/schemas/Identifiant"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "Example"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "example@exmaple.com"
+                                    },
+                                    "passsword": {
+                                        "type": "string",
+                                        "example": "1234"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete User",
+                "description": "Delete User",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "UserID",
+                        "schema:": {
+                            "$ref": "#/components/schemas/Identifiant"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok"
                     }
                 }
             }
