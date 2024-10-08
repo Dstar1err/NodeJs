@@ -17,7 +17,7 @@ export function WrongCredentials(done) {
 export function GoodCredentials(done) {
     supertest(app)
     .post("/users/login")
-    .expect(500)
+    .expect(200)
     .send({
         email: "stop@stop.com",
         password: "stop",
