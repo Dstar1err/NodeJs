@@ -12,9 +12,7 @@ export const app = express()
 
 app.use('/api-docs', swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerDoc));
 
-mongoose.connect(process.env.DB_URL).then(() => {
-    console.log("Database Connected:")
-
+export function AppListen() {
     app.listen(process.env.EXPRESS_PORT, (err) => {
         console.log("Server running at http://localhost:3000/ !")
     })
@@ -23,6 +21,11 @@ mongoose.connect(process.env.DB_URL).then(() => {
     app.use("/posts", PostRouter)
     app.use("/comments", CommentRouter)
     app.use("/posts", LikeRouter)
+}
+
+mongoose.connect(process.env.DB_URL).then(() => {
+    console.log("Database Connected:")
+    AppListen()
 }).catch((err) => {
     console.log("Mongoose Error:", err)
 })
