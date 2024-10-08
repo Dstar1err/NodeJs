@@ -14,3 +14,10 @@ app.use("/users", UserRouter)
 app.use("/posts", PostRouter)
 app.use("/comments", CommentRouter)
 app.use("/posts", LikeRouter)
+
+import multer from "multer"
+const upload = multer({dist: "uploads/"})
+
+app.post("/upload", upload.single("singleFile"), (req, res) => {
+    console.log("req file", req.file)
+})
