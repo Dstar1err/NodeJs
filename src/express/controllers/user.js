@@ -46,7 +46,6 @@ export function UserLogin(req, res) {
     User.findOne({email: email, hashedPassword: hashSync(password, process.env.HASH_SALT)}, sanitize).then((user) => {
         const accessToken = jsonwebtoken.sign(user.id, process.env.JWT_KEY);
         res.status(200).json({ accessToken});
-        console.log("Test Ok")
     }).catch((err) => {
         res.status(500).send("Login Error: " + err)
     })

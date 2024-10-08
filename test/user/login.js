@@ -16,14 +16,14 @@ export function WrongCredentials(done) {
 
 export function GoodCredentials(done) {
     supertest(app)
-    .post("/users/login")
-    .expect(200)
-    .send({
-        email: "stop@stop.com",
-        password: "stop",
-    })
-    .end((err, res) => {
-        if (err) return done(err);
-        return done();
-    });
+        .post("/users/login")
+        .expect(200)
+        .send({
+            email: "stop@stop.com",
+            password: "stop",
+        })
+        .end((err, res) => {
+            if (err) return done(err);
+            return done();
+        });
 }
