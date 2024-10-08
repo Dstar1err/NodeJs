@@ -1,4 +1,5 @@
 {
     "transform": {},
-    "roots": ["./test"]
+    "roots": ["./test"],
+    "coverageReporters": ["text-summary"]
 }
