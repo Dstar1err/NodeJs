@@ -16,8 +16,9 @@ app.use("/comments", CommentRouter)
 app.use("/posts", LikeRouter)
 
 import multer from "multer"
-const upload = multer({dist: "uploads/"})
+const upload = multer({dest: "./uploads"})
 
-app.post("/upload", upload.single("singleFile"), (req, res) => {
+app.post("/upload", upload.single("file"), (req, res) => {
     console.log("req file", req.file)
+    res.send("Ok")
 })
