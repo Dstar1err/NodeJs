@@ -18,7 +18,27 @@ app.use("/posts", LikeRouter)
 import multer from "multer"
 const upload = multer({dest: "./uploads"})
 
+
+
+
+import http from "node:http";
+import { Server } from "socket.io";
+
+const server = http.createServer(app)
+
+const io = new Server(server)
+
+io.on("connection",  (socket) => {
+    console.log("Made socket connection")
+    socket.on("chat", (message) => {
+        console.log("message dd: " , message)
+    })
+})
+
+server.listen(3001)
+
 app.post("/upload", upload.single("file"), (req, res) => {
     console.log("req file", req.file)
     res.send("Ok")
 })
+
