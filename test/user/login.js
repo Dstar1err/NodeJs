@@ -1,12 +1,12 @@
 import supertest from "supertest";
-import { app } from "../../src/index.js";
+import { app } from "../../src/express/app.js";
 
 export function WrongCredentials() {
-    console.log(app)
     supertest(app)
         .post("/users/login")
-        .expect(200)
+        .expect(400)
         .then((res) => {
+            console.log(res.body)
             expect(res.body).toBe("Email or Password undefined")
         })
 }
