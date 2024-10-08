@@ -6,6 +6,9 @@ import { CommentRouter } from "./routers/comment.js"
 import { LikeRouter } from "./routers/like.js"
 import swaggerUiExpress from "swagger-ui-express";
 import swaggerDoc from "../../doc/swagger_doc.json" assert { type: 'json' };
+import multer from "multer"
+import http from "node:http";
+import { Server } from "socket.io";
 
 export const app = express()
 
@@ -15,14 +18,7 @@ app.use("/posts", PostRouter)
 app.use("/comments", CommentRouter)
 app.use("/posts", LikeRouter)
 
-import multer from "multer"
 const upload = multer({dest: "./uploads"})
-
-
-
-
-import http from "node:http";
-import { Server } from "socket.io";
 
 const server = http.createServer(app)
 
