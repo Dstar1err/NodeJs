@@ -8,7 +8,7 @@ import { LikeRouter } from "./express/routers/like.js"
 import swaggerUiExpress from "swagger-ui-express";
 import swaggerDoc from "../doc/swagger_doc.json" assert { type: 'json' };
 
-const app = express()
+export const app = express()
 
 app.use('/api-docs', swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerDoc));
 
