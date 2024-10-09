@@ -9,6 +9,7 @@ const sanitize = {
 };
 
 export function UserRegister(req, res) {
+    try {
     let email = req.body.email
     if (!emailRegex.test(email)) {
         res.status(400).send("Not an Email")
@@ -31,9 +32,11 @@ export function UserRegister(req, res) {
         user.hashedPassword = undefined
         res.status(200).json(user)
     }).catch((err) => {
-        console.log("User Register Error:", err)
         res.status(500).send("User Register Error: " + err)
     })
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export function UserLogin(req, res) {

@@ -1,5 +1,6 @@
 import { app } from "./express/app.js"
 import mongoose from "mongoose"
+import 'dotenv/config'
 
 mongoose.connect(process.env.DB_URL).then(() => {
     console.log("Database Connected:")
